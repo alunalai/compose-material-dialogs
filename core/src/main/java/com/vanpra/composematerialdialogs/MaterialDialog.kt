@@ -1,24 +1,14 @@
 package com.vanpra.composematerialdialogs
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.LocalElevationOverlay
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -235,10 +225,12 @@ fun MaterialDialog(
     }
 
     BoxWithConstraints {
-        val maxHeight = if (isLargeDevice()) {
-            LocalConfiguration.current.screenHeightDp.dp - 96.dp
-        } else {
-            560.dp
+        val maxHeight = (LocalConfiguration.current.screenHeightDp * 0.98).dp
+        LocalConfiguration.current.apply {
+            Log.d(
+                "material-dialogs",
+                "screenWidthDp = ${screenWidthDp} screenHeightDp = ${screenHeightDp} ${isLargeDevice()} ${maxHeight}"
+            )
         }
 
         val maxHeightPx = with(LocalDensity.current) { maxHeight.toPx().toInt() }
@@ -257,7 +249,7 @@ fun MaterialDialog(
             ) {
                 Surface(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxWidth(0.98f)
                         .sizeIn(maxHeight = maxHeight, maxWidth = 560.dp)
                         .padding(horizontal = padding)
                         .clipToBounds()
