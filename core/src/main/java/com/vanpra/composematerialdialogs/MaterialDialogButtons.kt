@@ -14,6 +14,7 @@ import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.Layout
@@ -23,7 +24,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import java.util.Locale
+import java.util.*
 
 internal enum class MaterialDialogButtonTypes(val testTag: String) {
     Text("text"),
@@ -53,7 +54,7 @@ internal fun MaterialDialogScope.DialogButtonsLayout(
         modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp)
-            .background(dialogState.dialogBackgroundColor!!),
+            .background(dialogState.dialogBackgroundColor ?: Color.Transparent), // prevent null crashes here
         { measurables, constraints ->
 
             if (measurables.isEmpty()) {
